@@ -1,0 +1,58 @@
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 8cf51ffe..a006f7b0 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -25,6 +25,13 @@
+ #include "trace.h"
+ #include "signal-common.h"
+ 
++#ifndef __SIGRTMIN
++#define __SIGRTMIN 32
++#endif
++#ifndef __SIGRTMAX
++#define __SIGRTMAX (NSIG-1)
++#endif
++
+ static struct target_sigaction sigact_table[TARGET_NSIG];
+ 
+ static void host_signal_handler(int host_signum, siginfo_t *info,
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 6495ddc4..debb6f33 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -123,6 +123,13 @@
+ #include "fd-trans.h"
+ #include "tcg/tcg.h"
+ 
++#ifndef F_SHLCK
++#define F_SHLCK 8
++#endif
++#ifndef F_EXLCK
++#define F_EXLCK 4
++#endif
++
+ #ifndef CLONE_IO
+ #define CLONE_IO                0x80000000      /* Clone io context */
+ #endif
+@@ -6771,9 +6778,20 @@ static inline abi_long host_to_target_timex(abi_long target_addr,
+ }
+ #endif
+ 
+-static inline abi_long target_to_host_sigevent(struct sigevent *host_sevp,
++struct host_sigevent {
++    union sigval sigev_value;
++    int sigev_signo;
++    int sigev_notify;
++    union {
++       int _pad[64-sizeof(int) * 2 + sizeof(union sigval)];
++       int _tid;
++    } _sigev_un;
++};
++
++static inline abi_long target_to_host_sigevent(struct sigevent *sevp,
+                                                abi_ulong target_addr)
+ {
++    struct host_sigevent *host_sevp = (struct host_sigevent *) sevp;
+     struct target_sigevent *target_sevp;
+ 
+     if (!lock_user_struct(VERIFY_READ, target_sevp, target_addr, 1)) {

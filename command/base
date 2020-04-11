@@ -1,0 +1,25 @@
+WORK_ROOT=$(pwd)
+
+HOST_OS_RAW=$(uname -s)
+HOST_ARCH_RAW=$(uname -m)
+
+HOST_OS=${HOST_OS_RAW,,}
+HOST_ARCH=${HOST_ARCH_RAW,,}
+
+QEMU_NAME="qemu"
+QEMU_REV="5.0.0-rc1"
+QEMU_SRC_BASENAME="${QEMU_NAME}-${QEMU_REV}"
+QEMU_SRC_URL="https://download.qemu.org/${QEMU_SRC_BASENAME}.tar.xz"
+QEMU_SRC_PREFIX="${QEMU_REV}"
+QEMU_ARTIFACT_BASENAME="${QEMU_NAME}-${HOST_OS}-${HOST_ARCH}-${QEMU_REV}"
+
+WORKDIR() {
+    mkdir -p $1
+    cd $1
+    echo "workdir: $(pwd)"
+}
+
+RUN() {
+    echo "run: $@"
+    "$@"
+}

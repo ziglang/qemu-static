@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+. $(dirname $0)/base
+
+WORKDIR /work/src
+RUN wget "${QEMU_SRC_URL}"

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+. $(dirname $0)/base
+
+WORKDIR "/work/src/${QEMU_SRC_BASENAME}"
+RUN patch -p1 -i "${WORK_ROOT}/patch/${QEMU_NAME}.diff"

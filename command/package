@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+. $(dirname $0)/base
+
+
+WORKDIR /work/artifact
+RUN tar cJf "${QEMU_ARTIFACT_BASENAME}.tar.xz" -C /work/dst "${QEMU_ARTIFACT_BASENAME}"

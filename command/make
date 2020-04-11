@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+. $(dirname $0)/base
+
+WORKDIR "/work/out/${QEMU_SRC_BASENAME}"
+RUN make -j$(nproc)

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+. $(dirname $0)/base
+
+WORKDIR /work/src
+RUN tar xf "$(basename ${QEMU_SRC_URL})"
