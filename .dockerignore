@@ -1,1 +1,3 @@
-.git
+.git/
+artifact/
+qemu.cid
