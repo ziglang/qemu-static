@@ -6,12 +6,12 @@ all possible libraries.
 
 ## build docker image
 ```
-docker build --tag qemu-static:5.0.0-rc3 .
+docker build --tag qemu .
 ```
 
 ## run container, save ID, copy artifact(s)
 ```
-docker run -it --cidfile=qemu.cid qemu-static:5.0.0-rc3 true
+docker run -it --cidfile=qemu.cid qemu true
 docker cp "$(cat qemu.cid):work/artifact" artifact
 ```
 
