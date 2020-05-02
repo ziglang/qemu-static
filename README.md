@@ -12,7 +12,7 @@ docker build --tag qemu .
 ## run container, save ID, copy artifact(s)
 ```
 docker run -it --cidfile=qemu.cid qemu true
-docker cp "$(cat qemu.cid):work/artifact" artifact
+docker cp "$(cat qemu.cid):work/artifact/." artifact
 ```
 
 ## review final artifact(s)

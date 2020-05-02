@@ -5,5 +5,5 @@ set -e
 . $(dirname $0)/base
 
 WORKDIR "/work/src/${QEMU_SRC_BASENAME}"
-RUN patch -p1 -i "${WORK_ROOT}/patch/${QEMU_NAME}.diff"
+RUN patch -p1 -i "${WORK_ROOT}/patch/qemu.diff"
 RUN patch -p1 -i "${WORK_ROOT}/patch/mremap-underflow.diff"
