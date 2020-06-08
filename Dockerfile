@@ -1,4 +1,4 @@
-FROM alpine:3.11.6
+FROM alpine:3.12.0
 
 RUN apk update
 RUN apk upgrade
@@ -15,7 +15,7 @@ RUN apk add\
  zlib-dev zlib-static
 
 # additional
-RUN apk add bash xz
+RUN apk add bash xz git patch
 
 WORKDIR /work
 

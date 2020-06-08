@@ -4,5 +4,9 @@ set -e
 
 . $(dirname $0)/base
 
+if [ -n $QEMU_GIT_COMMIT ]; then
+    exit 0
+fi
+
 WORKDIR /work/src
 RUN tar xf "$(basename ${QEMU_SRC_URL})"

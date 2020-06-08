@@ -8,14 +8,24 @@ HOST_ARCH=${HOST_ARCH_RAW,,}
 
 QEMU_NAME="qemu"
 QEMU_REV="5.0.0"
-QEMU_SRC_BASENAME="${QEMU_NAME}-${QEMU_REV}"
-QEMU_SRC_URL="https://download.qemu.org/${QEMU_SRC_BASENAME}.tar.xz"
-QEMU_SRC_PREFIX="${QEMU_REV}"
 
-# blank when QEMU_REV bumps, otherwise begin count from 1
-QEMU_REV_ZIG_SERIAL=2
-QEMU_REV_ZIG=${QEMU_REV_ZIG_SERIAL:+-z$QEMU_REV_ZIG_SERIAL}
-QEMU_ARTIFACT_BASENAME="${QEMU_NAME}-${HOST_OS}-${HOST_ARCH}-${QEMU_REV}${QEMU_REV_ZIG}"
+# when not empty use `git clone` instead of downloading source tarball
+QEMU_GIT_COMMIT="49ee115552"
+
+# reset to blank when QEMU_REV/GIT_COMMIT bumps, otherwise begin count from 1
+QEMU_REV_ZIG_SERIAL=
+
+if [ -n $QEMU_GIT_COMMIT ]; then
+    QEMU_SRC_BASENAME="${QEMU_NAME}-${QEMU_REV}-${QEMU_GIT_COMMIT}"
+else
+    QEMU_SRC_BASENAME="${QEMU_NAME}-${QEMU_REV}"
+    QEMU_SRC_URL="https://download.qemu.org/${QEMU_SRC_BASENAME}.tar.xz"
+fi
+
+QEMU_ARTIFACT_F0=${QEMU_GIT_COMMIT:+-$QEMU_GIT_COMMIT}
+QEMU_ARTIFACT_F1=${QEMU_REV_ZIG_SERIAL:+-z$QEMU_REV_ZIG_SERIAL}
+
+QEMU_ARTIFACT_BASENAME="${QEMU_NAME}-${HOST_OS}-${HOST_ARCH}-${QEMU_REV}${QEMU_ARTIFACT_F0}${QEMU_ARTIFACT_F1}"
 
 WORKDIR() {
     mkdir -p $1

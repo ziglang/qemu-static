@@ -5,4 +5,11 @@ set -e
 . $(dirname $0)/base
 
 WORKDIR /work/src
-RUN wget "${QEMU_SRC_URL}"
+
+if [ -n $QEMU_GIT_COMMIT ]; then
+    git clone --no-checkout https://github.com/qemu/qemu.git $QEMU_SRC_BASENAME
+    cd $QEMU_SRC_BASENAME
+    git checkout $QEMU_GIT_COMMIT
+else
+    RUN wget "${QEMU_SRC_URL}"
+fi
