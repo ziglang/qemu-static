@@ -6,7 +6,7 @@ set -e
 
 WORKDIR /work/src
 
-if [ -n $QEMU_GIT_COMMIT ]; then
+if [ -n "$QEMU_GIT_COMMIT" ]; then
     git clone --no-checkout https://github.com/qemu/qemu.git $QEMU_SRC_BASENAME
     cd $QEMU_SRC_BASENAME
     git checkout $QEMU_GIT_COMMIT
