@@ -56,3 +56,18 @@ index 6495ddc4..debb6f33 100644
      struct target_sigevent *target_sevp;
  
      if (!lock_user_struct(VERIFY_READ, target_sevp, target_addr, 1)) {
+diff --git a/util/memfd.c b/util/memfd.c
+index 00334e5b21..4a3c07e0be 100644
+--- a/util/memfd.c
++++ b/util/memfd.c
+@@ -35,7 +35,7 @@
+ #include <sys/syscall.h>
+ #include <asm/unistd.h>
+ 
+-static int memfd_create(const char *name, unsigned int flags)
++int memfd_create(const char *name, unsigned int flags)
+ {
+ #ifdef __NR_memfd_create
+     return syscall(__NR_memfd_create, name, flags);
+-- 
+

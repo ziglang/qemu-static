@@ -5,10 +5,14 @@ RUN apk upgrade
 
 # required by qemu
 RUN apk add\
+ autoconf\
+ automake\
  make\
+ python2\
  python3\
  gcc\
  libc-dev\
+ libtool\
  pkgconf\
  linux-headers\
  glib-dev glib-static\
