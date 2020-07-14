@@ -15,7 +15,7 @@ QEMU_GIT_COMMIT="49ee115552"
 # reset to blank when QEMU_REV/GIT_COMMIT bumps, otherwise begin count from 1
 QEMU_REV_ZIG_SERIAL=
 
-if [ -n $QEMU_GIT_COMMIT ]; then
+if [ -n "$QEMU_GIT_COMMIT" ]; then
     QEMU_SRC_BASENAME="${QEMU_NAME}-${QEMU_REV}-${QEMU_GIT_COMMIT}"
 else
     QEMU_SRC_BASENAME="${QEMU_NAME}-${QEMU_REV}"
@@ -34,6 +34,6 @@ WORKDIR() {
 }
 
 RUN() {
-    echo "run: $@"
+    echo "run: $*"
     "$@"
 }
