@@ -7,10 +7,10 @@ HOST_OS=${HOST_OS_RAW,,}
 HOST_ARCH=${HOST_ARCH_RAW,,}
 
 QEMU_NAME="qemu"
-QEMU_REV="5.0.0"
+QEMU_REV="5.1.0"
 
 # when not empty use `git clone` instead of downloading source tarball
-QEMU_GIT_COMMIT="49ee115552"
+QEMU_GIT_COMMIT=""
 
 # reset to blank when QEMU_REV/GIT_COMMIT bumps, otherwise begin count from 1
 QEMU_REV_ZIG_SERIAL=
