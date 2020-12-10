@@ -1,4 +1,4 @@
-FROM alpine:3.12.1
+FROM alpine:edge
 
 RUN apk update
 RUN apk upgrade
@@ -6,6 +6,8 @@ RUN apk upgrade
 # required by qemu
 RUN apk add\
  make\
+ samurai\
+ perl\
  python3\
  gcc\
  libc-dev\
