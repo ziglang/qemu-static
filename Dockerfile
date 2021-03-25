@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.13.2
 
 RUN apk update
 RUN apk upgrade
