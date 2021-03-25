@@ -18,10 +18,12 @@ It is a non-goal to build older versions of QEMU.
 docker build --tag qemu .
 ```
 
-## run container, save ID, copy artifact(s)
+## run container, save ID, copy artifact(s), cleanup
 ```
 docker run -it --cidfile=qemu.cid qemu true
 docker cp "$(cat qemu.cid):work/artifact/." artifact
+docker container rm $(cat qemu.cid)
+rm qemu.cid
 ```
 
 ## review final artifact(s)
