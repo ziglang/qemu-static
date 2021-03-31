@@ -18,15 +18,25 @@ It is a non-goal to build older versions of QEMU.
 docker build --tag qemu .
 ```
 
-## run container, save ID, copy artifact(s), cleanup
+## run container, save ID, copy artifact(s)
 ```
 docker run -it --cidfile=qemu.cid qemu true
 docker cp "$(cat qemu.cid):work/artifact/." artifact
-docker container rm $(cat qemu.cid)
-rm qemu.cid
 ```
 
 ## review final artifact(s)
 ```
 ls -al artifact/
+```
+
+## cleanup container, ID-file, and image
+```
+docker container rm $(cat qemu.cid)
+rm qemu.cid
+docker image rm qemu
+```
+
+## really, really cleanup docker
+```
+docker system prune --force
 ```
