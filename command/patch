@@ -5,4 +5,5 @@ set -e
 . $(dirname $0)/base
 
 WORKDIR "/work/src/${QEMU_SRC_BASENAME}"
-RUN patch -p1 -i "${WORK_ROOT}/patch/qemu.diff"
+RUN patch -p1 -i "${WORK_ROOT}/patch/alpinelinux.diff"
+RUN patch -p1 -i "${WORK_ROOT}/patch/do_sendrecvmsg_locked.diff"

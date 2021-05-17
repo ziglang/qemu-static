@@ -1,0 +1,13 @@
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index e2cc71f9c..545c45829 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -3317,7 +3317,7 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
+                                       int flags, int send)
+ {
+     abi_long ret, len;
+-    struct msghdr msg;
++    struct msghdr msg = { 0 };
+     abi_ulong count;
+     struct iovec *vec;
+     abi_ulong target_vec;

@@ -1,5 +1,5 @@
 diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 73de934c6..3a944999d 100644
+index 8cf51ffe..a006f7b0 100644
 --- a/linux-user/signal.c
 +++ b/linux-user/signal.c
 @@ -25,6 +25,13 @@
@@ -10,17 +10,17 @@ index 73de934c6..3a944999d 100644
 +#define __SIGRTMIN 32
 +#endif
 +#ifndef __SIGRTMAX
-+#define __SIGRTMAX (NSIG - 1)
++#define __SIGRTMAX (NSIG-1)
 +#endif
 +
  static struct target_sigaction sigact_table[TARGET_NSIG];
  
  static void host_signal_handler(int host_signum, siginfo_t *info,
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 27adee908..18c692989 100644
+index 6495ddc4..debb6f33 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -130,6 +130,13 @@
+@@ -123,6 +123,13 @@
  #include "fd-trans.h"
  #include "tcg/tcg.h"
  
@@ -34,16 +34,7 @@ index 27adee908..18c692989 100644
  #ifndef CLONE_IO
  #define CLONE_IO                0x80000000      /* Clone io context */
  #endif
-@@ -3310,7 +3317,7 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
-                                       int flags, int send)
- {
-     abi_long ret, len;
--    struct msghdr msg;
-+    struct msghdr msg = { 0 };
-     abi_ulong count;
-     struct iovec *vec;
-     abi_ulong target_vec;
-@@ -7306,9 +7313,20 @@ static inline abi_long host_to_target_timex64(abi_long target_addr,
+@@ -6771,9 +6778,20 @@ static inline abi_long host_to_target_timex(abi_long target_addr,
  }
  #endif
  
@@ -53,7 +44,7 @@ index 27adee908..18c692989 100644
 +    int sigev_signo;
 +    int sigev_notify;
 +    union {
-+       int _pad[64 - sizeof(int) * 2 + sizeof(union sigval)];
++       int _pad[64-sizeof(int) * 2 + sizeof(union sigval)];
 +       int _tid;
 +    } _sigev_un;
 +};
