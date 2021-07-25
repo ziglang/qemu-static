@@ -5,4 +5,5 @@ set -e
 . $(dirname $0)/base
 
 WORKDIR "/work/src/${QEMU_SRC_BASENAME}"
-RUN patch -p1 -i "${WORK_ROOT}/patch/qemu.diff"
+RUN patch -p1 -i "${WORK_ROOT}/patch/linux-user__signal.c.diff"
+RUN patch -p1 -i "${WORK_ROOT}/patch/linux-user__syscall.c.diff"
