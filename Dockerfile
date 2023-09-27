@@ -1,4 +1,4 @@
-FROM alpine:3.17.1
+FROM alpine:3.18.3
 
 RUN apk update
 RUN apk upgrade
@@ -14,7 +14,9 @@ RUN apk add\
  pkgconf\
  linux-headers\
  glib-dev glib-static\
- zlib-dev zlib-static
+ zlib-dev zlib-static\
+ flex\
+ bison
 
 # additional
 RUN apk add bash xz git patch
