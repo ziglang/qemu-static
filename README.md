@@ -27,7 +27,7 @@ docker cp "$(cat qemu.cid):work/artifact/." ../artifact/.
 
 ## review final artifact(s)
 ```
-ls -al ./artifact/
+ls -al ../artifact/
 ```
 
 ## cleanup container, ID-file, and image
