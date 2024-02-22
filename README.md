@@ -20,14 +20,14 @@ docker build --tag qemu .
 
 ## run container, save ID, copy artifact(s)
 ```
-mkdir artifact
+mkdir ../artifact
 docker run -it --cidfile=qemu.cid qemu true
-docker cp "$(cat qemu.cid):work/artifact/." artifact/.
+docker cp "$(cat qemu.cid):work/artifact/." ../artifact/.
 ```
 
 ## review final artifact(s)
 ```
-ls -al artifact/
+ls -al ./artifact/
 ```
 
 ## cleanup container, ID-file, and image
