@@ -5,6 +5,7 @@ set -e
 . $(dirname $0)/base
 
 WORKDIR "/work/src/${QEMU_SRC_BASENAME}"
+RUN patch -p1 -i "${WORK_ROOT}/patch/configs__targets__aarch64_be-linux-user.mak.diff"
 RUN patch -p1 -i "${WORK_ROOT}/patch/linux-user__sigrt.diff"
-RUN patch -p1 -i "${WORK_ROOT}/patch/linux-user__syscall.diff"
 RUN patch -p1 -i "${WORK_ROOT}/patch/linux-user__syscall-lfs.diff"
+RUN patch -p1 -i "${WORK_ROOT}/patch/linux-user__syscall.diff"
