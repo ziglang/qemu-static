@@ -1,11 +1,5 @@
-commit 60406bafb9f2ed39c8187058900dfefaf43ef9e6
-Author: Michael Dusan <michael.dusan@gmail.com>
-Date:   Wed Jun 5 11:09:23 2024 -0400
-
-    syscall.c
-
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 3df2b94d9a..29420959bf 100644
+index 59b2080b98..b6c6d461ec 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
 @@ -144,6 +144,13 @@
@@ -22,7 +16,7 @@ index 3df2b94d9a..29420959bf 100644
  #ifndef CLONE_IO
  #define CLONE_IO                0x80000000      /* Clone io context */
  #endif
-@@ -3223,7 +3230,7 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
+@@ -3245,7 +3252,7 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
                                        int flags, int send)
  {
      abi_long ret, len;
@@ -31,7 +25,7 @@ index 3df2b94d9a..29420959bf 100644
      abi_ulong count;
      struct iovec *vec;
      abi_ulong target_vec;
-@@ -7526,9 +7533,20 @@ static inline abi_long host_to_target_timex64(abi_long target_addr,
+@@ -7545,9 +7552,20 @@ static inline abi_long host_to_target_timex64(abi_long target_addr,
  #define sigev_notify_thread_id _sigev_un._tid
  #endif
  
@@ -53,7 +47,7 @@ index 3df2b94d9a..29420959bf 100644
      struct target_sigevent *target_sevp;
  
      if (!lock_user_struct(VERIFY_READ, target_sevp, target_addr, 1)) {
-@@ -7546,7 +7564,7 @@ static inline abi_long target_to_host_sigevent(struct sigevent *host_sevp,
+@@ -7565,7 +7583,7 @@ static inline abi_long target_to_host_sigevent(struct sigevent *host_sevp,
      host_sevp->sigev_signo =
          target_to_host_signal(tswap32(target_sevp->sigev_signo));
      host_sevp->sigev_notify = tswap32(target_sevp->sigev_notify);

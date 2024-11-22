@@ -1,14 +1,8 @@
-commit f73d26228e00c7a768755d72f6a01e2fa80c5252
-Author: Michael Dusan <michael.dusan@gmail.com>
-Date:   Wed Jun 5 11:08:51 2024 -0400
-
-    signal.c
-
 diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 05dc4afb52..c07727dff0 100644
+index 9b6d772882..a4224e7abf 100644
 --- a/linux-user/signal.c
 +++ b/linux-user/signal.c
-@@ -37,6 +37,13 @@
+@@ -39,6 +39,13 @@
  /* target_siginfo_t must fit in gdbstub's siginfo save area. */
  QEMU_BUILD_BUG_ON(sizeof(target_siginfo_t) > MAX_SIGINFO_LENGTH);
  
