@@ -15,7 +15,7 @@ RUN apk add\
  linux-headers\
  glib-dev glib-static\
  zlib-dev zlib-static\
- pcre2-dev pcre2-static\ 
+ pcre2-dev pcre2-static\
  flex\
  bison
 
