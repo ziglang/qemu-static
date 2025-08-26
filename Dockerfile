@@ -1,4 +1,4 @@
-FROM alpine:3.21.3
+FROM alpine:3.22.1
 
 RUN apk update
 RUN apk upgrade
@@ -15,6 +15,7 @@ RUN apk add\
  linux-headers\
  glib-dev glib-static\
  zlib-dev zlib-static\
+ pcre2-dev pcre2-static\ 
  flex\
  bison
 
