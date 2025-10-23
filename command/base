@@ -7,7 +7,7 @@ HOST_OS=${HOST_OS_RAW,,}
 HOST_ARCH=${HOST_ARCH_RAW,,}
 
 QEMU_NAME="qemu"
-QEMU_REV="10.1.1"
+QEMU_REV="10.1.2"
 
 # when not empty use `git clone` instead of downloading source tarball
 QEMU_GIT_COMMIT=""
