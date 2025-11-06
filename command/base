@@ -13,7 +13,7 @@ QEMU_REV="10.1.2"
 QEMU_GIT_COMMIT=""
 
 # reset to blank when QEMU_REV/GIT_COMMIT bumps, otherwise begin count from 1
-QEMU_REV_ZIG_SERIAL=1
+QEMU_REV_ZIG_SERIAL=2
 
 if [ -n "$QEMU_GIT_COMMIT" ]; then
     QEMU_SRC_BASENAME="${QEMU_NAME}-${QEMU_REV}-${QEMU_GIT_COMMIT}"
