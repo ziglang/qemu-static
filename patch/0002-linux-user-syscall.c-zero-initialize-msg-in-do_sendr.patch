@@ -1,0 +1,26 @@
+From c29b743abe7066ea1926d0ffdd15f8c41d8dbfc5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=C3=89rico=20Nogueira=20Rolim?= <erico.erc@gmail.com>
+Date: Fri, 7 Nov 2025 00:38:35 +0100
+Subject: [PATCH] linux-user/syscall.c: zero-initialize msg in
+ do_sendrecvmsg_locked()
+
+---
+ linux-user/syscall.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 91360a072c..f096c42042 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -3274,7 +3274,7 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
+                                       int flags, int send)
+ {
+     abi_long ret, len;
+-    struct msghdr msg;
++    struct msghdr msg = {0};
+     abi_ulong count;
+     struct iovec *vec;
+     abi_ulong target_vec;
+-- 
+2.51.2
+

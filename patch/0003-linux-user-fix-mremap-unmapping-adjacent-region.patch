@@ -1,0 +1,30 @@
+From 64c86178d71342d530c446924c79693d6849cf80 Mon Sep 17 00:00:00 2001
+From: Matthew Lugg <mlugg@mlugg.co.uk>
+Date: Fri, 7 Nov 2025 00:42:33 +0100
+Subject: [PATCH] linux-user: fix mremap unmapping adjacent region
+
+This typo meant that calls to `mremap` which shrink a mapping by some N
+bytes would, when the virtual address space was pre-reserved (e.g.
+32-bit guest on 64-bit host), unmap the N bytes following the *original*
+mapping.
+---
+ linux-user/mmap.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 002e1e668e..7a5f7c3660 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -1170,7 +1170,8 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
+                     errno = ENOMEM;
+                     host_addr = MAP_FAILED;
+                 } else if (reserved_va && old_size > new_size) {
+-                    mmap_reserve_or_unmap(old_addr + old_size,
++                    /* Re-reserve pages we just shrunk out of the mapping */
++                    mmap_reserve_or_unmap(old_addr + new_size,
+                                           old_size - new_size);
+                 }
+             }
+-- 
+2.51.2
+

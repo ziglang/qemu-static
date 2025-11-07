@@ -5,9 +5,7 @@ set -e
 . $(dirname $0)/base
 
 WORKDIR "/work/src/${QEMU_SRC_BASENAME}"
-RUN patch -p1 -i "${WORK_ROOT}/patch/linux-user__signal.diff"
-RUN patch -p1 -i "${WORK_ROOT}/patch/linux-user__syscall.diff"
-RUN patch -p1 -i "${WORK_ROOT}/patch/linux-user__mlugg1.diff"
-RUN patch -p1 -i "${WORK_ROOT}/patch/linux-user__mlugg2.diff"
-RUN patch -p1 -i "${WORK_ROOT}/patch/linux-user__mlugg3.diff"
-RUN patch -p1 -i "${WORK_ROOT}/patch/linux-user__elfload.diff"
+
+for f in "${WORK_ROOT}"/patch/*.patch; do
+    RUN patch -p1 -i "$f"
+done

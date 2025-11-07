@@ -1,8 +1,32 @@
+From f5f9ffaac16933c03ab0be1012fbcaf762882143 Mon Sep 17 00:00:00 2001
+From: Matthew Lugg <mlugg@mlugg.co.uk>
+Date: Fri, 7 Nov 2025 00:43:21 +0100
+Subject: [PATCH] linux-user: fix reserved_va page leak in do_munmap
+
+The previous logic here had an off-by-one error: assuming 4k pages on
+host and guest, if `len == 4097` (indicating to unmap 2 pages), then
+`last = start + 4096`, so `real_last = start + 4095`, so ultimately
+`real_len = 4096`. I do not believe this could cause any observable bugs
+in guests, because `target_munmap` page-aligns the length it passes in.
+However, calls to this function in `target_mremap` do not page-align the
+length, so those calls could "drop" pages, leading to a part of the
+reserved region becoming unmapped. At worst, a host allocation could get
+mapped into that hole, then clobbered by a new guest mapping.
+
+A simple fix didn't feel ideal here, because I think this function was
+not written as well as it could be. Instead, the logic is simpler if we
+use `end = start + len` instead of `last = start + len - 1` (overflow
+does not cause any problem here), and use offsets in the loops (avoiding
+overflows since the offset is never larger than the host page size).
+---
+ linux-user/mmap.c | 63 ++++++++++++++++-------------------------------
+ 1 file changed, 21 insertions(+), 42 deletions(-)
+
 diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 4c5fe832ad..e1ed9085c7 100644
+index 64d7d43248..2259df62a3 100644
 --- a/linux-user/mmap.c
 +++ b/linux-user/mmap.c
-@@ -1014,59 +1014,38 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
+@@ -1020,59 +1020,38 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
  static int mmap_reserve_or_unmap(abi_ulong start, abi_ulong len)
  {
      int host_page_size = qemu_real_host_page_size();
@@ -83,3 +107,6 @@ index 4c5fe832ad..e1ed9085c7 100644
  }
  
  int target_munmap(abi_ulong start, abi_ulong len)
+-- 
+2.51.2
+

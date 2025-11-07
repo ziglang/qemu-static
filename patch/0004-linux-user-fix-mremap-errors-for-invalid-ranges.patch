@@ -1,0 +1,41 @@
+From b252dc315ba92af202655b6dd62a23a982bcb542 Mon Sep 17 00:00:00 2001
+From: Matthew Lugg <mlugg@mlugg.co.uk>
+Date: Fri, 7 Nov 2025 00:42:54 +0100
+Subject: [PATCH] linux-user: fix mremap errors for invalid ranges
+
+If an address range given to `mremap` is invalid (exceeds addressing
+bounds on the guest), we were previously returning `ENOMEM`, which is
+not correct. The manpage and the Linux kernel implementation both agree
+that if `old_addr`/`old_size` refer to an invalid address, `EFAULT` is
+returned, and if `new_addr`/`new_size` refer to an invalid address,
+`EINVAL` is returned.
+---
+ linux-user/mmap.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 7a5f7c3660..64d7d43248 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -1109,12 +1109,15 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
+     int prot;
+     void *host_addr;
+ 
+-    if (!guest_range_valid_untagged(old_addr, old_size) ||
+-        ((flags & MREMAP_FIXED) &&
++    if (!guest_range_valid_untagged(old_addr, old_size)) {
++        errno = EFAULT;
++        return -1;
++    }
++    if (((flags & MREMAP_FIXED) &&
+          !guest_range_valid_untagged(new_addr, new_size)) ||
+         ((flags & MREMAP_MAYMOVE) == 0 &&
+          !guest_range_valid_untagged(old_addr, new_size))) {
+-        errno = ENOMEM;
++        errno = EINVAL;
+         return -1;
+     }
+ 
+-- 
+2.51.2
+
