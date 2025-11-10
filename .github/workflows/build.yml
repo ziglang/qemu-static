@@ -1,0 +1,49 @@
+name: Build QEMU Static Binaries
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  release:
+    types: [created]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - name: x86_64
+            runs-on: ubuntu-latest
+          - name: aarch64
+            runs-on: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx (for multi-arch)
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: |
+          docker build --tag qemu .
+
+      - name: Run container and copy artifacts
+        run: |
+          mkdir -p artifact
+          docker run --cidfile=qemu.cid qemu true
+          docker cp "$(cat qemu.cid):/work/artifact/." artifact/.
+
+      - name: Upload QEMU binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: qemu-static-binaries-${{ matrix.name }}
+          path: artifact/*
+
+      - name: Upload binaries to GitHub Release
+        if: github.event_name == 'release' && startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifact/*
